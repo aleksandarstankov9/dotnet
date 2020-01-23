@@ -1,0 +1,71 @@
+﻿@model Cart
+
+<h2>Your cart</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Quantity</th>
+                    <th>Item</th>
+                    <th class="text-right">Price</th>
+                    <th class="text-right">Item value</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CartItem ci in Model.Items)
+                {
+                <tr>
+                    <td>@ci.Quantity</td>
+                    <td>@ci.Product.ProductName</td>
+                    <td>@ci.Product.Price.ToString()</td>
+                    <td class="text-right">
+                        @((ci.Quantity * ci.Product.Price).ToString())
+                    </td>
+                    <td>
+                        <form asp-action="DeleteItem" method="post">
+                            <input type="hidden" name="ProductId" value="@ci.Product.ProductId" />
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="UpdateItem" method="post">
+                            <input type="hidden" name="ProductId" value="@ci.Product.ProductId" />
+                            <div class="input-group">
+                                <input type="number" name="quantity" value="@ci.Quantity" class="form-control" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="submit">Update</button>
+                                </span>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right">in total:</td>
+                    <td class="text-right">        
+                    @Model.CartValue().ToString() 
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<hr />
+<div class="row mt-3">
+    <div class="col-md-8">
+        <a class="btn btn-primary btn-block" href="Home/Index">Back to home</a>
+        <br />
+        <form asp-action="Index" asp-controller="Purchase">
+            <button class="btn btn-primary btn-block">Purchase</button>
+        </form>
+    </div>
+</div>
+
+
+

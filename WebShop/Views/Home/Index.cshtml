@@ -1,0 +1,27 @@
+﻿<div class="row">
+    <div class="col-md-4">
+        <a class="btn btn-block 
+           @(ViewBag.id == 0 ? "btn-primary": "btn-light")"
+           asp-action="Index" 
+           asp-controller="Home"
+           asp-route-id="0">   
+            All products     
+            </a>
+
+        @foreach (Category c in ViewBag.Categories)
+        {<a class="btn btn-block   
+            @(c.CategoryId == ViewBag.Id ? "btn-primary": "btn-light")"
+            asp-action="Index" 
+            asp-controller="Home"
+            asp-route-id="@c.CategoryId">        
+            @c.Name  
+            </a>}
+    </div>
+
+    <div class="col-md-8">
+        @foreach (Product p in Model)
+        {
+            @await Html.PartialAsync("_ViewProduct", p)
+        }
+    </div>
+</div>
